@@ -1,145 +1,211 @@
-use std::fs;
-use zed_extension_api::{self as zed, LanguageServerId, Result, settings::LspSettings};
+use std::collections::HashMap;
 
-struct YarnLanguageServerBinary {
-    path: String,
-    args: Option<Vec<String>>,
+use zed_extension_api::{self as zed, Result, settings::LspSettings};
+
+const EXTENSION_ID: &str = "yarn-spinner";
+const LANGUAGE_SERVER_ENTRYPOINT: &str = "runtime\\language-server\\server.js";
+
+struct YarnLanguageServerCommand {
+    command: String,
+    args: Vec<String>,
+    env: Vec<(String, String)>,
 }
 
-struct YarnSpinnerExtension {
-    cached_binary_path: Option<String>,
+struct YarnSpinnerExtension;
+
+fn settings_env(env: Option<HashMap<String, String>>) -> Vec<(String, String)> {
+    env.unwrap_or_default().into_iter().collect()
+}
+
+fn installed_extension_path(local_app_data: &str, relative_path: &str) -> String {
+    let local_app_data = local_app_data.trim_end_matches(['\\', '/']);
+    format!("{local_app_data}\\Zed\\extensions\\installed\\{EXTENSION_ID}\\{relative_path}")
 }
 
 impl YarnSpinnerExtension {
-    fn language_server_binary(
-        &mut self,
-        language_server_id: &LanguageServerId,
+    fn language_server_command(
+        &self,
         worktree: &zed::Worktree,
-    ) -> Result<YarnLanguageServerBinary> {
+    ) -> Result<YarnLanguageServerCommand> {
         let binary_settings = LspSettings::for_worktree("yarn-spinner-lsp", worktree)
             .ok()
-            .and_then(|lsp_settings| lsp_settings.binary);
+            .and_then(|settings| settings.binary);
         let binary_args = binary_settings
             .as_ref()
-            .and_then(|binary_settings| binary_settings.arguments.clone());
+            .and_then(|settings| settings.arguments.clone())
+            .unwrap_or_default();
+        let binary_env = settings_env(
+            binary_settings
+                .as_ref()
+                .and_then(|settings| settings.env.clone()),
+        );
 
-        if let Some(path) = binary_settings.and_then(|binary_settings| binary_settings.path) {
-            return Ok(YarnLanguageServerBinary {
-                path,
+        if let Some(path) = binary_settings.and_then(|settings| settings.path) {
+            return Ok(YarnLanguageServerCommand {
+                command: path,
                 args: binary_args,
+                env: binary_env,
             });
         }
 
+        // Keep supporting installations of the legacy native language server.
         if let Some(path) = worktree.which("YarnLanguageServer") {
-            return Ok(YarnLanguageServerBinary {
-                path,
+            return Ok(YarnLanguageServerCommand {
+                command: path,
                 args: binary_args,
+                env: binary_env,
             });
         }
 
-        if let Some(path) = &self.cached_binary_path {
-            if fs::metadata(path).map_or(false, |stat| stat.is_file()) {
-                return Ok(YarnLanguageServerBinary {
-                    path: path.clone(),
-                    args: binary_args,
-                });
-            }
-        }
-
-        zed::set_language_server_installation_status(
-            language_server_id,
-            &zed::LanguageServerInstallationStatus::CheckingForUpdate,
-        );
-        let release = zed::latest_github_release(
-            "MaoTab/YarnSpinner",
-            zed::GithubReleaseOptions {
-                require_assets: true,
-                pre_release: false,
-            },
-        )?;
-
-        let (platform, arch) = zed::current_platform();
-        let platform_name = match platform {
-            zed::Os::Mac => "osx",
-            zed::Os::Linux => "linux",
-            zed::Os::Windows => "win",
-        };
-        let arch_name = match arch {
-            zed::Architecture::Aarch64 => "arm64",
-            zed::Architecture::X86 => "x86",
-            zed::Architecture::X8664 => "x64",
-        };
-
-        let asset_name = format!(
-            "yarnspinner.languageserver-{}-{}.zip",
-            platform_name, arch_name
-        );
-
-        let asset = release
-            .assets
-            .iter()
-            .find(|asset| asset.name == asset_name)
-            .ok_or_else(|| format!("no asset found matching {:?}", asset_name))?;
-
-        let version_dir = format!("yarn-spinner-lsp-{}", release.version);
-        let binary_name = match platform {
-            zed::Os::Windows => "YarnLanguageServer.exe",
-            _ => "YarnLanguageServer",
-        };
-        let binary_path = format!("{}/{}", version_dir, binary_name);
-
-        if !fs::metadata(&binary_path).map_or(false, |stat| stat.is_file()) {
-            zed::set_language_server_installation_status(
-                language_server_id,
-                &zed::LanguageServerInstallationStatus::Downloading,
+        let (platform, _) = zed::current_platform();
+        if platform != zed::Os::Windows {
+            return Err(
+                "The bundled Yarn Spinner language server currently supports Windows only."
+                    .to_string(),
             );
-
-            zed::download_file(
-                &asset.download_url,
-                &version_dir,
-                zed::DownloadedFileType::Zip,
-            )
-            .map_err(|e| format!("failed to download file: {e}"))?;
-
-            let entries =
-                fs::read_dir(".").map_err(|e| format!("failed to list working directory {e}"))?;
-            for entry in entries {
-                let entry = entry.map_err(|e| format!("failed to load directory entry {e}"))?;
-                if entry.file_name().to_str() != Some(&version_dir) {
-                    fs::remove_dir_all(entry.path()).ok();
-                }
-            }
-
-            zed::make_file_executable(&binary_path)?;
         }
 
-        self.cached_binary_path = Some(binary_path.clone());
-        Ok(YarnLanguageServerBinary {
-            path: binary_path,
-            args: binary_args,
-        })
+        let node_path = worktree.which("node").ok_or_else(|| {
+            "Yarn Spinner requires Node.js. Install Node.js and make `node` available in PATH."
+                .to_string()
+        })?;
+
+        let configured_dotnet_path = binary_env
+            .iter()
+            .find(|(key, _)| key == "DOTNET_PATH")
+            .map(|(_, value)| value.clone());
+        let dotnet_path = configured_dotnet_path
+            .or_else(|| worktree.which("dotnet"))
+            .ok_or_else(|| {
+                "Yarn Spinner requires .NET 9. Install it and make `dotnet` available in PATH, or set `DOTNET_PATH` in the language server environment."
+                    .to_string()
+            })?;
+
+        let shell_env = worktree.shell_env();
+        let local_app_data = shell_env
+            .iter()
+            .find(|(key, _)| key.eq_ignore_ascii_case("LOCALAPPDATA"))
+            .map(|(_, value)| value)
+            .ok_or_else(|| {
+                "Yarn Spinner could not find LOCALAPPDATA in the shell environment.".to_string()
+            })?;
+
+        let server_path = installed_extension_path(local_app_data, LANGUAGE_SERVER_ENTRYPOINT);
+        Ok(Self::node_command(
+            node_path,
+            server_path,
+            binary_args,
+            binary_env,
+            dotnet_path,
+        ))
+    }
+
+    fn node_command(
+        node_path: String,
+        server_path: String,
+        binary_args: Vec<String>,
+        mut binary_env: Vec<(String, String)>,
+        dotnet_path: String,
+    ) -> YarnLanguageServerCommand {
+        let mut args = vec![server_path, "--stdio".to_string()];
+        args.extend(binary_args);
+
+        if !binary_env.iter().any(|(key, _)| key == "DOTNET_PATH") {
+            binary_env.push(("DOTNET_PATH".to_string(), dotnet_path));
+        }
+
+        YarnLanguageServerCommand {
+            command: node_path,
+            args,
+            env: binary_env,
+        }
     }
 }
 
 impl zed::Extension for YarnSpinnerExtension {
     fn new() -> Self {
-        Self {
-            cached_binary_path: None,
-        }
+        Self
     }
 
     fn language_server_command(
         &mut self,
-        language_server_id: &zed::LanguageServerId,
+        _language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        let yarn_binary = self.language_server_binary(language_server_id, worktree)?;
+        let command = YarnSpinnerExtension::language_server_command(self, worktree)?;
         Ok(zed::Command {
-            command: yarn_binary.path,
-            args: yarn_binary.args.unwrap_or_else(|| vec![]),
-            env: Default::default(),
+            command: command.command,
+            args: command.args,
+            env: command.env,
         })
     }
 }
 
 zed::register_extension!(YarnSpinnerExtension);
+
+#[cfg(test)]
+mod tests {
+    use std::path::Path;
+
+    use super::*;
+
+    #[test]
+    fn builds_the_windows_installed_extension_path() {
+        assert_eq!(
+            installed_extension_path(
+                r"C:\Users\MaoTou\AppData\Local\",
+                LANGUAGE_SERVER_ENTRYPOINT
+            ),
+            r"C:\Users\MaoTou\AppData\Local\Zed\extensions\installed\yarn-spinner\runtime\language-server\server.js"
+        );
+    }
+
+    #[test]
+    fn bundled_runtime_files_are_present() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+        assert!(root.join("runtime/language-server/server.js").is_file());
+        assert!(
+            root.join("runtime/compiler-service/YarnSpinner.CompilerService.dll")
+                .is_file()
+        );
+    }
+
+    #[test]
+    fn node_command_uses_stdio_and_exposes_dotnet() {
+        let command = YarnSpinnerExtension::node_command(
+            "node".to_string(),
+            "server.js".to_string(),
+            vec!["--trace".to_string()],
+            vec![("CUSTOM".to_string(), "value".to_string())],
+            "dotnet".to_string(),
+        );
+
+        assert_eq!(command.command, "node");
+        assert_eq!(command.args, ["server.js", "--stdio", "--trace"]);
+        assert!(
+            command
+                .env
+                .contains(&("DOTNET_PATH".to_string(), "dotnet".to_string()))
+        );
+    }
+
+    #[test]
+    fn node_command_preserves_a_configured_dotnet_path() {
+        let command = YarnSpinnerExtension::node_command(
+            "node".to_string(),
+            "server.js".to_string(),
+            Vec::new(),
+            vec![("DOTNET_PATH".to_string(), "custom-dotnet".to_string())],
+            "detected-dotnet".to_string(),
+        );
+
+        assert_eq!(
+            command
+                .env
+                .iter()
+                .filter(|(key, _)| key == "DOTNET_PATH")
+                .collect::<Vec<_>>(),
+            [&("DOTNET_PATH".to_string(), "custom-dotnet".to_string())]
+        );
+    }
+}

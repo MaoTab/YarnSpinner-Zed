@@ -731,7 +731,7 @@ dependencies = [
 
 [[package]]
 name = "zed-yarn-spinner"
-version = "0.0.9"
+version = "0.0.11"
 dependencies = [
  "zed_extension_api",
 ]

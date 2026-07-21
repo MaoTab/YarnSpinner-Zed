@@ -1,0 +1,239 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "YarnSpinner.CompilerService/1.0.0": {
+        "dependencies": {
+          "Microsoft.CodeAnalysis.CSharp": "4.14.0",
+          "YarnSpinner": "0.0.0",
+          "YarnSpinner.Compiler": "0.0.0"
+        },
+        "runtime": {
+          "YarnSpinner.CompilerService.dll": {}
+        }
+      },
+      "Antlr4.Runtime.Standard/4.13.1": {
+        "runtime": {
+          "lib/netstandard2.0/Antlr4.Runtime.Standard.dll": {
+            "assemblyVersion": "4.13.1.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "CsvHelper/12.2.2": {
+        "runtime": {
+          "lib/netstandard2.0/CsvHelper.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.2.2.0"
+          }
+        }
+      },
+      "Google.Protobuf/3.25.2": {
+        "runtime": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "assemblyVersion": "3.25.2.0",
+            "fileVersion": "3.25.2.0"
+          }
+        }
+      },
+      "Microsoft.CodeAnalysis.Common/4.14.0": {
+        "runtime": {
+          "lib/net9.0/Microsoft.CodeAnalysis.dll": {
+            "assemblyVersion": "4.14.0.0",
+            "fileVersion": "4.1400.25.26210"
+          }
+        },
+        "resources": {
+          "lib/net9.0/cs/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/net9.0/de/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "de"
+          },
+          "lib/net9.0/es/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "es"
+          },
+          "lib/net9.0/fr/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/net9.0/it/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "it"
+          },
+          "lib/net9.0/ja/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/net9.0/ko/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/net9.0/pl/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/net9.0/pt-BR/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/net9.0/ru/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/net9.0/tr/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/net9.0/zh-Hans/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/net9.0/zh-Hant/Microsoft.CodeAnalysis.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        }
+      },
+      "Microsoft.CodeAnalysis.CSharp/4.14.0": {
+        "dependencies": {
+          "Microsoft.CodeAnalysis.Common": "4.14.0"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.CodeAnalysis.CSharp.dll": {
+            "assemblyVersion": "4.14.0.0",
+            "fileVersion": "4.1400.25.26210"
+          }
+        },
+        "resources": {
+          "lib/net9.0/cs/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/net9.0/de/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "de"
+          },
+          "lib/net9.0/es/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "es"
+          },
+          "lib/net9.0/fr/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/net9.0/it/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "it"
+          },
+          "lib/net9.0/ja/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/net9.0/ko/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/net9.0/pl/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/net9.0/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/net9.0/ru/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/net9.0/tr/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/net9.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/net9.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing/8.0.0": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.FileSystemGlobbing.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "YarnSpinner/0.0.0": {
+        "dependencies": {
+          "Google.Protobuf": "3.25.2"
+        },
+        "runtime": {
+          "YarnSpinner.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "YarnSpinner.Compiler/0.0.0": {
+        "dependencies": {
+          "Antlr4.Runtime.Standard": "4.13.1",
+          "CsvHelper": "12.2.2",
+          "Google.Protobuf": "3.25.2",
+          "Microsoft.Extensions.FileSystemGlobbing": "8.0.0",
+          "YarnSpinner": "0.0.0"
+        },
+        "runtime": {
+          "YarnSpinner.Compiler.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "YarnSpinner.CompilerService/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Antlr4.Runtime.Standard/4.13.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Da5+i4kFHUseJRZGcBG5fmZGpA/Ns180ibrQMxgZzjpQOnENVvSL5gi5HZ8Ncz8/AR2WsKbOg2lMBzjz0HUQcA==",
+      "path": "antlr4.runtime.standard/4.13.1",
+      "hashPath": "antlr4.runtime.standard.4.13.1.nupkg.sha512"
+    },
+    "CsvHelper/12.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xsCRcQ8AEMYI3cCdhIULWr9RA79zuGOc5qijEseM4JJ3nsdPLYAch5vUgcH1xWDTYQtKjVt15ep/X7/Y6AymUw==",
+      "path": "csvhelper/12.2.2",
+      "hashPath": "csvhelper.12.2.2.nupkg.sha512"
+    },
+    "Google.Protobuf/3.25.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-g/xIIeLhR77bl4ajGGbPYRmZf5acJlCRaSBqUnU8+2aQYREnZnv+UccRNndHof4mWO1ORS0b5i6on40VOjBpsg==",
+      "path": "google.protobuf/3.25.2",
+      "hashPath": "google.protobuf.3.25.2.nupkg.sha512"
+    },
+    "Microsoft.CodeAnalysis.Common/4.14.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PC3tuwZYnC+idaPuoC/AZpEdwrtX7qFpmnrfQkgobGIWiYmGi5MCRtl5mx6QrfMGQpK78X2lfIEoZDLg/qnuHg==",
+      "path": "microsoft.codeanalysis.common/4.14.0",
+      "hashPath": "microsoft.codeanalysis.common.4.14.0.nupkg.sha512"
+    },
+    "Microsoft.CodeAnalysis.CSharp/4.14.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-568a6wcTivauIhbeWcCwfWwIn7UV7MeHEBvFB2uzGIpM2OhJ4eM/FZ8KS0yhPoNxnSpjGzz7x7CIjTxhslojQA==",
+      "path": "microsoft.codeanalysis.csharp/4.14.0",
+      "hashPath": "microsoft.codeanalysis.csharp.4.14.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.FileSystemGlobbing/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OK+670i7esqlQrPjdIKRbsyMCe9g5kSLpRRQGSr4Q58AOYEe/hCnfLZprh7viNisSUUQZmMrbbuDaIrP+V1ebQ==",
+      "path": "microsoft.extensions.filesystemglobbing/8.0.0",
+      "hashPath": "microsoft.extensions.filesystemglobbing.8.0.0.nupkg.sha512"
+    },
+    "YarnSpinner/0.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "YarnSpinner.Compiler/0.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
