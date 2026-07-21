@@ -1,0 +1,22 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "yarn_spinner",
+      "camelcase": "YarnSpinner",
+      "title": "Yarn Spinner",
+      "scope": "source.yarnspinner",
+      "file-types": ["yarn"],
+      "injection-regex": "^yarn_spinner$",
+      "class-name": "TreeSitterYarnSpinner"
+    }
+  ],
+  "metadata": {
+    "version": "0.0.7",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for Yarn Spinner",
+    "links": {
+      "repository": "https://github.com/MaoTab/YarnSpinner-Zed"
+    }
+  }
+}

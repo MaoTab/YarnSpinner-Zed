@@ -1,14 +1,15 @@
 id = "yarn-spinner"
 name = "Yarn Spinner"
-version = "0.0.9"
+version = "0.0.10"
 schema_version = 1
-authors = ["yuna0x0 <yuna@yuna0x0.com>"]
+authors = ["MaoT"]
 description = "Yarn Spinner language support for Zed"
-repository = "https://github.com/yuna0x0/zed-yarn-spinner"
+repository = "https://github.com/MaoTab/YarnSpinner-Zed"
 
 [grammars.yarn_spinner]
-repository = "https://github.com/yuna0x0/tree-sitter-yarn-spinner"
-rev = "bdb90c2be17abe6bfd3d49ea444b627d603c8224"
+repository = "https://github.com/MaoTab/YarnSpinner-Zed"
+rev = ""
+path = "tree-sitter"
 
 [language_servers.yarn-spinner-lsp]
 name = "Yarn Spinner LSP"

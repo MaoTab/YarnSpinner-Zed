@@ -1,0 +1,26 @@
+root = true
+
+[*]
+charset = utf-8
+
+[*.{json,yml}]
+indent_style = space
+indent_size = 2
+
+[*.js]
+indent_style = space
+indent_size = 2
+
+[*.scm]
+indent_style = space
+indent_size = 2
+
+[*.{c,h}]
+indent_style = space
+indent_size = 4
+
+[parser.c]
+indent_size = 2
+
+[{alloc,array,parser}.h]
+indent_size = 2

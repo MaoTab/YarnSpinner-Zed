@@ -51,7 +51,7 @@ impl YarnSpinnerExtension {
             &zed::LanguageServerInstallationStatus::CheckingForUpdate,
         );
         let release = zed::latest_github_release(
-            "yuna0x0/YarnSpinner",
+            "MaoTab/YarnSpinner",
             zed::GithubReleaseOptions {
                 require_assets: true,
                 pre_release: false,

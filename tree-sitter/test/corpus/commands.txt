@@ -1,0 +1,228 @@
+==================
+Multiple set commands on one line
+==================
+
+title: Start
+---
+<<set $a = 1>> <<set $b = 2>>
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (set_statement
+        (command_start)
+        (set_kw)
+        (variable
+          (identifier))
+        (expression
+          (number))
+        (command_end)))
+    (statement
+      (set_statement
+        (command_start)
+        (set_kw)
+        (variable
+          (identifier))
+        (expression
+          (number))
+        (command_end)))
+    (body_end)))
+
+==================
+All standalone command forms on one line
+==================
+
+title: Start
+---
+<<declare $score = 0>> <<set $score += 1>> <<call visited("Start")>> <<detour Side>> <<return>> <<set_volume 1>>
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (declare_statement
+        (command_start)
+        (declare_kw)
+        (variable
+          (identifier))
+        (expression
+          (number))
+        (command_end)))
+    (statement
+      (set_statement
+        (command_start)
+        (set_kw)
+        (variable
+          (identifier))
+        (expression
+          (number))
+        (command_end)))
+    (statement
+      (call_statement
+        (command_start)
+        (call_kw)
+        (function_call
+          (identifier)
+          (expression
+            (string)))
+        (command_end)))
+    (statement
+      (jump_statement
+        (command_start)
+        (detour_kw)
+        (identifier)
+        (command_end)))
+    (statement
+      (return_statement
+        (command_start)
+        (return_kw)
+        (command_end)))
+    (statement
+      (command_statement
+        (command_start)
+        (command_text)
+        (command_text)
+        (command_end)))
+    (body_end)))
+
+==================
+Adjacent set commands without whitespace
+==================
+
+title: Start
+---
+<<set $a = 1>><<set $b = 2>>
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (set_statement
+        (command_start)
+        (set_kw)
+        (variable
+          (identifier))
+        (expression
+          (number))
+        (command_end)))
+    (statement
+      (set_statement
+        (command_start)
+        (set_kw)
+        (variable
+          (identifier))
+        (expression
+          (number))
+        (command_end)))
+    (body_end)))
+
+==================
+Mixed commands on one line
+==================
+
+title: Start
+---
+<<set $a = 1>> <<play_sound door>> <<call visited("Start")>>
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (set_statement
+        (command_start)
+        (set_kw)
+        (variable
+          (identifier))
+        (expression
+          (number))
+        (command_end)))
+    (statement
+      (command_statement
+        (command_start)
+        (command_text)
+        (command_text)
+        (command_end)))
+    (statement
+      (call_statement
+        (command_start)
+        (call_kw)
+        (function_call
+          (identifier)
+          (expression
+            (string)))
+        (command_end)))
+    (body_end)))
+
+==================
+Structured commands on one line
+==================
+
+title: Start
+---
+<<if true>><<set $a = 1>><<endif>>
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (if_statement
+        (if_clause
+          (command_start)
+          (if_kw)
+          (expression
+            (true_kw))
+          (command_end)
+          (statement
+            (set_statement
+              (command_start)
+              (set_kw)
+              (variable
+                (identifier))
+              (expression
+                (number))
+              (command_end))))
+        (command_start)
+        (endif_kw)
+        (command_end)))
+    (body_end)))

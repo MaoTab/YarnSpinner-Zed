@@ -4,10 +4,10 @@ version = "0.0.9"
 edition = "2024"
 publish = false
 description = "Yarn Spinner language support for Zed"
-repository = "https://github.com/yuna0x0/zed-yarn-spinner"
+repository = "https://github.com/MaoTab/YarnSpinner-Zed"
 license = "MIT"
 keywords = ["gamedev", "language-server", "zed", "yarn-spinner", "zed-extension"]
-categories = ["development-tools", "programming-languages"]
+categories = ["development-tools"]
 
 [lib]
 crate-type = ["cdylib"]
