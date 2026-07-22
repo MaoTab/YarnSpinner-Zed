@@ -145,6 +145,37 @@
     }
   },
   {
+    "type": "character_delimiter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "character_label",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "character_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "character_delimiter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "command_statement",
     "named": true,
     "fields": {},
@@ -787,6 +818,10 @@
           "named": true
         },
         {
+          "type": "text_colon",
+          "named": true
+        },
+        {
           "type": "text_slash",
           "named": true
         }
@@ -851,6 +886,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "character_label",
+          "named": true
+        },
         {
           "type": "hashtag",
           "named": true
@@ -1620,6 +1659,11 @@
     "fields": {}
   },
   {
+    "type": "text_colon",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "text_slash",
     "named": true,
     "fields": {}
@@ -1814,6 +1858,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": "<",
     "named": false
   },
@@ -1875,6 +1923,10 @@
   },
   {
     "type": "case_kw",
+    "named": true
+  },
+  {
+    "type": "character_name",
     "named": true
   },
   {

@@ -102,17 +102,32 @@ module.exports = grammar({
     // Line: text/expressions, optional hashtags, newline
     line_statement: ($) =>
       seq(
+        optional($.character_label),
         $.line_formatted_text,
         optional($.line_condition),
         repeat($.hashtag),
         $.newline,
       ),
 
+    // The first colon on a dialogue line separates the character name from
+    // the spoken text. Later colons remain part of the dialogue.
+    character_label: ($) =>
+      prec(
+        1,
+        seq(
+          field("name", alias($.text, $.character_name)),
+          $.character_delimiter,
+        ),
+      ),
+
+    character_delimiter: (_) => token(":"),
+
     // inline text with embedded expressions
     line_formatted_text: ($) =>
       repeat1(
         choice(
           $.text,
+          $.text_colon,
           $.text_slash,
           $.text_closing_bracket,
           $.escaped_character,
@@ -422,7 +437,8 @@ module.exports = grammar({
     // Text chunks stop at markup, expression, hashtag, command, comment, and
     // escape boundaries. A single slash remains ordinary text, while // is
     // left for the comment token.
-    text: (_) => token(/[^\s#<>{}\[\]\\\/][^#<>{}\[\]\r\n\\\/]*/),
+    text: (_) => token(/[^\s#<>{}\[\]\\\/:][^#<>{}\[\]\r\n\\\/:]*/),
+    text_colon: (_) => token(":"),
     text_slash: (_) => token("/"),
     text_closing_bracket: (_) => token("]"),
     escaped_character: (_) => token(seq("\\", /[^\r\n]/)),

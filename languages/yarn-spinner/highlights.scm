@@ -176,7 +176,10 @@
 (markup_unquoted_value) @string
 
 ; Text content
+(character_name) @keyword
+(character_delimiter) @punctuation.delimiter
 (text) @text.literal
+(text_colon) @text.literal
 (text_slash) @text.literal
 (text_closing_bracket) @text.literal
 (escaped_character) @text.literal

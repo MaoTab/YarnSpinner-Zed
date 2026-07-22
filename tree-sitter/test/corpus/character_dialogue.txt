@@ -1,0 +1,126 @@
+==================
+Character name and dialogue
+==================
+
+title: Start
+---
+Alice: Hello there
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (character_label
+          (character_name)
+          (character_delimiter))
+        (line_formatted_text
+          (text))
+        (newline)))
+    (body_end)))
+
+==================
+Only the first colon separates the character
+==================
+
+title: Start
+---
+Narrator: The time is 10:30 now
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (character_label
+          (character_name)
+          (character_delimiter))
+        (line_formatted_text
+          (text)
+          (text_colon)
+          (text))
+        (newline)))
+    (body_end)))
+
+==================
+Line without a character name
+==================
+
+title: Start
+---
+This line has no character
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (line_formatted_text
+          (text))
+        (newline)))
+    (body_end)))
+
+==================
+Character dialogue with markup and trailing comment
+==================
+
+title: Start
+---
+Alice: [wave]Hello[/wave] // note
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (character_label
+          (character_name)
+          (character_delimiter))
+        (line_formatted_text
+          (markup
+            (markup_open
+              (markup_start)
+              (markup_name)
+              (markup_end)))
+          (text)
+          (markup
+            (markup_close
+              (markup_start)
+              (markup_close_marker)
+              (markup_name)
+              (markup_end))))
+        (comment)
+        (newline)))
+    (body_end)))
