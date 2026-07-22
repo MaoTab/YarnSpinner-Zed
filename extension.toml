@@ -8,7 +8,7 @@ repository = "https://github.com/MaoTab/YarnSpinner-Zed"
 
 [grammars.yarn_spinner]
 repository = "https://github.com/MaoTab/YarnSpinner-Zed"
-rev = "cf852f87d1d1fe4fa41caa2ed1927622bf22f4c8"
+rev = "259fa24be635687e475c28c49482636540550004"
 path = "tree-sitter"
 
 [language_servers.yarn-spinner-lsp]
