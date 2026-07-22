@@ -154,8 +154,32 @@
 (expression_start) @punctuation.bracket
 (expression_end) @punctuation.bracket
 
+; Inline markup, for example [wave], [/wave], [/], and [wait=0.6/]
+(markup_start) @punctuation.bracket
+(markup_end) @punctuation.bracket
+(markup_close_marker) @punctuation.bracket
+(markup_self_close) @punctuation.bracket
+(markup_equals) @operator
+
+(markup_open
+  name: (markup_name) @tag)
+
+(markup_close
+  name: (markup_name) @tag)
+
+(markup_self_closing
+  name: (markup_name) @tag)
+
+(markup_property
+  name: (markup_name) @property)
+
+(markup_unquoted_value) @string
+
 ; Text content
 (text) @text.literal
+(text_slash) @text.literal
+(text_closing_bracket) @text.literal
+(escaped_character) @text.literal
 
 ; Variables and identifiers
 (variable

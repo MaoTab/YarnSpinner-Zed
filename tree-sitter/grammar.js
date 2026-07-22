@@ -111,8 +111,91 @@ module.exports = grammar({
     // inline text with embedded expressions
     line_formatted_text: ($) =>
       repeat1(
-        choice($.text, seq($.expression_start, $.expression, $.expression_end)),
+        choice(
+          $.text,
+          $.text_slash,
+          $.text_closing_bracket,
+          $.escaped_character,
+          $.markup,
+          seq($.expression_start, $.expression, $.expression_end),
+        ),
       ),
+
+    // Yarn Spinner markup, for example [wave], [/wave], [/], and [wait=0.6/].
+    markup: ($) =>
+      choice(
+        $.markup_open,
+        $.markup_close,
+        $.markup_close_all,
+        $.markup_self_closing,
+        $.markup_empty,
+      ),
+
+    markup_open: ($) =>
+      seq(
+        $.markup_start,
+        field("name", $.markup_name),
+        optional($.markup_shorthand_property),
+        repeat($.markup_property),
+        $.markup_end,
+      ),
+
+    markup_close: ($) =>
+      seq(
+        $.markup_start,
+        $.markup_close_marker,
+        field("name", $.markup_name),
+        $.markup_end,
+      ),
+
+    markup_close_all: ($) =>
+      seq($.markup_start, $.markup_close_marker, $.markup_end),
+
+    markup_self_closing: ($) =>
+      seq(
+        $.markup_start,
+        field("name", $.markup_name),
+        optional($.markup_shorthand_property),
+        repeat($.markup_property),
+        $.markup_self_close,
+      ),
+
+    // Kept as a tolerant form so an incomplete [] tag can still be highlighted
+    // while it is being edited.
+    markup_empty: ($) => seq($.markup_start, $.markup_end),
+
+    markup_shorthand_property: ($) =>
+      seq($.markup_equals, field("value", $._markup_value)),
+
+    markup_property: ($) =>
+      seq(
+        field("name", $.markup_name),
+        $.markup_equals,
+        field("value", $._markup_value),
+      ),
+
+    _markup_value: ($) =>
+      choice(
+        seq($.expression_start, $.expression, $.expression_end),
+        alias($._markup_number, $.number),
+        $.string,
+        $.variable,
+        $.true_kw,
+        $.false_kw,
+        $.null_kw,
+        $.markup_unquoted_value,
+      ),
+
+    markup_start: (_) => token("["),
+    markup_end: (_) => token("]"),
+    markup_close_marker: (_) => token("/"),
+    markup_self_close: (_) => token("/]"),
+    markup_equals: (_) => token("="),
+    markup_name: (_) => token(/[A-Za-z_][A-Za-z0-9_.-]*/),
+    _markup_number: (_) =>
+      token(prec(2, choice(/[0-9]+/, /[0-9]+\.[0-9]+/))),
+    markup_unquoted_value: (_) =>
+      token(prec(1, /[^\s\[\]\/={}\"]+/)),
 
     // Simple condition forms on a line like <<if expr>> or <<once ...>>
     line_condition: ($) =>
@@ -336,8 +419,13 @@ module.exports = grammar({
     // Newline token (named for clarity)
     newline: (_) => token(seq(optional("\r"), "\n")),
 
-    // Text chunks for a line: any chars stopping at control markers
-    text: (_) => token(/[^\s#<>{}\\][^#<>{}\r\n\\]*/),
+    // Text chunks stop at markup, expression, hashtag, command, comment, and
+    // escape boundaries. A single slash remains ordinary text, while // is
+    // left for the comment token.
+    text: (_) => token(/[^\s#<>{}\[\]\\\/][^#<>{}\[\]\r\n\\\/]*/),
+    text_slash: (_) => token("/"),
+    text_closing_bracket: (_) => token("]"),
+    escaped_character: (_) => token(seq("\\", /[^\r\n]/)),
 
     // Command delimiters
     command_start: (_) => token("<<"),

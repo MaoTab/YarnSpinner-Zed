@@ -1,0 +1,197 @@
+==================
+Inline markup tags and properties
+==================
+
+title: Start
+---
+Hello [b]bold[/b][br/][wait=0.6/] after
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (line_formatted_text
+          (text)
+          (markup
+            (markup_open
+              (markup_start)
+              (markup_name)
+              (markup_end)))
+          (text)
+          (markup
+            (markup_close
+              (markup_start)
+              (markup_close_marker)
+              (markup_name)
+              (markup_end)))
+          (markup
+            (markup_self_closing
+              (markup_start)
+              (markup_name)
+              (markup_self_close)))
+          (markup
+            (markup_self_closing
+              (markup_start)
+              (markup_name)
+              (markup_shorthand_property
+                (markup_equals)
+                (number))
+              (markup_self_close)))
+          (text))
+        (newline)))
+    (body_end)))
+
+==================
+Close-all and tolerant empty markup
+==================
+
+title: Start
+---
+[][wave]Hello[/]
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (line_formatted_text
+          (markup
+            (markup_empty
+              (markup_start)
+              (markup_end)))
+          (markup
+            (markup_open
+              (markup_start)
+              (markup_name)
+              (markup_end)))
+          (text)
+          (markup
+            (markup_close_all
+              (markup_start)
+              (markup_close_marker)
+              (markup_end))))
+        (newline)))
+    (body_end)))
+
+==================
+Markup expression and named properties
+==================
+
+title: Start
+---
+[select value={$gender} m="he" fallback=they/]
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (line_formatted_text
+          (markup
+            (markup_self_closing
+              (markup_start)
+              (markup_name)
+              (markup_property
+                (markup_name)
+                (markup_equals)
+                (expression_start)
+                (expression
+                  (variable
+                    (identifier)))
+                (expression_end))
+              (markup_property
+                (markup_name)
+                (markup_equals)
+                (string))
+              (markup_property
+                (markup_name)
+                (markup_equals)
+                (markup_unquoted_value))
+              (markup_self_close))))
+        (newline)))
+    (body_end)))
+
+==================
+Trailing comment after line text
+==================
+
+title: Start
+---
+Hello there // this is a comment
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (line_formatted_text
+          (text))
+        (comment)
+        (newline)))
+    (body_end)))
+
+==================
+Escaped brackets and ordinary slash
+==================
+
+title: Start
+---
+Use \[br/] or a/b literally
+===
+
+---
+
+(source_file
+  (node
+    (title_header
+      (title_kw)
+      (header_delimiter)
+      (rest_of_line)
+      (newline))
+    (body_start)
+    (statement
+      (line_statement
+        (line_formatted_text
+          (text)
+          (escaped_character)
+          (text)
+          (text_slash)
+          (text_closing_bracket)
+          (text)
+          (text_slash)
+          (text))
+        (newline)))
+    (body_end)))

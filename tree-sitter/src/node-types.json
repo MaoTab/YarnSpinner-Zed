@@ -759,6 +759,10 @@
       "required": true,
       "types": [
         {
+          "type": "escaped_character",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -771,7 +775,19 @@
           "named": true
         },
         {
+          "type": "markup",
+          "named": true
+        },
+        {
           "type": "text",
+          "named": true
+        },
+        {
+          "type": "text_closing_bracket",
+          "named": true
+        },
+        {
+          "type": "text_slash",
           "named": true
         }
       ]
@@ -849,6 +865,338 @@
         },
         {
           "type": "newline",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markup",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "markup_close",
+          "named": true
+        },
+        {
+          "type": "markup_close_all",
+          "named": true
+        },
+        {
+          "type": "markup_empty",
+          "named": true
+        },
+        {
+          "type": "markup_open",
+          "named": true
+        },
+        {
+          "type": "markup_self_closing",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markup_close",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "markup_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "markup_close_marker",
+          "named": true
+        },
+        {
+          "type": "markup_end",
+          "named": true
+        },
+        {
+          "type": "markup_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markup_close_all",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "markup_close_marker",
+          "named": true
+        },
+        {
+          "type": "markup_end",
+          "named": true
+        },
+        {
+          "type": "markup_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markup_close_marker",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "markup_empty",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "markup_end",
+          "named": true
+        },
+        {
+          "type": "markup_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markup_end",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "markup_equals",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "markup_open",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "markup_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "markup_end",
+          "named": true
+        },
+        {
+          "type": "markup_property",
+          "named": true
+        },
+        {
+          "type": "markup_shorthand_property",
+          "named": true
+        },
+        {
+          "type": "markup_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markup_property",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "markup_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "expression_end",
+            "named": true
+          },
+          {
+            "type": "expression_start",
+            "named": true
+          },
+          {
+            "type": "false_kw",
+            "named": true
+          },
+          {
+            "type": "markup_unquoted_value",
+            "named": true
+          },
+          {
+            "type": "null_kw",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true_kw",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "markup_equals",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markup_self_closing",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "markup_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "markup_property",
+          "named": true
+        },
+        {
+          "type": "markup_self_close",
+          "named": true
+        },
+        {
+          "type": "markup_shorthand_property",
+          "named": true
+        },
+        {
+          "type": "markup_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markup_shorthand_property",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "expression_end",
+            "named": true
+          },
+          {
+            "type": "expression_start",
+            "named": true
+          },
+          {
+            "type": "false_kw",
+            "named": true
+          },
+          {
+            "type": "markup_unquoted_value",
+            "named": true
+          },
+          {
+            "type": "null_kw",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "true_kw",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "markup_equals",
           "named": true
         }
       ]
@@ -1267,6 +1615,16 @@
     }
   },
   {
+    "type": "text_closing_bracket",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "text_slash",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "title_header",
     "named": true,
     "fields": {
@@ -1480,6 +1838,10 @@
     "named": false
   },
   {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "^",
     "named": false
   },
@@ -1573,6 +1935,10 @@
     "named": true
   },
   {
+    "type": "escaped_character",
+    "named": true
+  },
+  {
     "type": "expression_end",
     "named": true
   },
@@ -1634,6 +2000,22 @@
   },
   {
     "type": "lte_kw",
+    "named": true
+  },
+  {
+    "type": "markup_name",
+    "named": true
+  },
+  {
+    "type": "markup_self_close",
+    "named": true
+  },
+  {
+    "type": "markup_start",
+    "named": true
+  },
+  {
+    "type": "markup_unquoted_value",
     "named": true
   },
   {
